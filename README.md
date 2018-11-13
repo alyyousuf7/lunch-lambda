@@ -18,7 +18,7 @@ following environment variables:
 Name | Description | Note
 -|-|-
 `COGS_USERNAME` | Your username for 10Pearls COGS (the portal)
-`COGS_PASSWORD` | Your password for the same ^
+`COGS_PASSWORD` | Your password for the same ^ | You can use `base64` encoded string as well. Just a small effort to keep it hidden from naked eyes
 `CLIENT_NUM` | Number of clients where you need push notification
 `CLIENT_{x}` | Name of the push notification service (currently supported: `pushbullet` only)
 `CLIENT_{x}_TOKEN` | Access Token for push notification service | Valid if `CLIENT_{x}` is `pushbullet` only
