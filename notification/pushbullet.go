@@ -12,19 +12,22 @@ var _ Notifier = &PushBullet{}
 
 type PushBullet struct {
 	AccessToken string
+	ChannelTag  string
 }
 
 func (n *PushBullet) Notify(title, message string) error {
 	client := http.Client{}
 
 	body, err := json.Marshal(struct {
-		Type  string `json:"type"`
-		Title string `json:"title"`
-		Body  string `json:"body"`
+		Type       string `json:"type"`
+		Title      string `json:"title"`
+		Body       string `json:"body"`
+		ChannelTag string `json:"channel_tag"`
 	}{
-		Type:  "note",
-		Title: title,
-		Body:  message,
+		Type:       "note",
+		Title:      title,
+		Body:       message,
+		ChannelTag: n.ChannelTag,
 	})
 	if err != nil {
 		return err

@@ -22,6 +22,7 @@ Name | Description | Note
 `CLIENT_NUM` | Number of clients where you need push notification
 `CLIENT_{x}` | Name of the push notification service (currently supported: `pushbullet` only)
 `CLIENT_{x}_TOKEN` | Access Token for push notification service | Valid if `CLIENT_{x}` is `pushbullet` only
+`CLIENT_{x}_CHANNEL` (optional) | Channel Tag to push notifications to all subscribers. If not provided, `pushbullet` will notify all your devices | Valid if `CLIENT_{x}` is `pushbullet` only
 
 Note: `{x}` must start from `1` till `CLIENT_NUM`.
 

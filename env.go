@@ -68,13 +68,15 @@ func EnvNotifier(index int) (notification.Notifier, error) {
 
 	case "pushbullet":
 		accessToken := os.Getenv(fmt.Sprintf("%s_TOKEN", envPrefix))
-
 		if accessToken == "" {
 			return nil, fmt.Errorf("token not provided")
 		}
 
+		channelTag := os.Getenv(fmt.Sprintf("%s_CHANNEL", envPrefix))
+
 		return &notification.PushBullet{
 			AccessToken: accessToken,
+			ChannelTag:  channelTag,
 		}, nil
 
 	default:
