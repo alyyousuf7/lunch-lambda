@@ -133,9 +133,9 @@ func (c COGS) Lunch() ([]string, error) {
 		if time.Now().Year() == t.Year() && time.Now().YearDay() == t.YearDay() {
 			menu := strings.Split(v.Attributes.Menu, ",")
 
-			// clean up spaces
+			// clean up spaces and lines
 			for k, v := range menu {
-				menu[k] = strings.Trim(v, " ")
+				menu[k] = strings.Trim(v, " \n")
 			}
 
 			return menu, nil
