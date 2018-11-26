@@ -24,8 +24,9 @@ func (n *PushBullet) Notify(title, message string) error {
 		Body       string `json:"body"`
 		ChannelTag string `json:"channel_tag"`
 	}{
-		Type:       "note",
-		Title:      title,
+		Type: "note",
+		// Do not use title because if provided, it hides the content in notification
+		// Title:   title,
 		Body:       message,
 		ChannelTag: n.ChannelTag,
 	})
