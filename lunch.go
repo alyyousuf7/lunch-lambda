@@ -10,6 +10,7 @@ import (
 	"time"
 )
 
+// COGS consists of login credentials for the portal
 type COGS struct {
 	username, password string
 }
@@ -66,6 +67,7 @@ func (c COGS) accessToken() (string, error) {
 	return respJSON.Data.Attributes.AccessToken, nil
 }
 
+// Lunch returns list of strings for lunch menu today
 func (c COGS) Lunch() ([]string, error) {
 	token, err := c.accessToken()
 	if err != nil {
@@ -110,8 +112,9 @@ func (c COGS) Lunch() ([]string, error) {
 	var respJSON struct {
 		Data []struct {
 			Attributes struct {
-				Date string `json:"lunch-date"`
-				Menu string `json:"menu-item"`
+				Date      string `json:"lunch-date"`
+				Menu      string `json:"menu-item"`
+				LunchType string `json:"lunch-type"`
 			} `json:"attributes"`
 		} `json:"data"`
 	}
@@ -124,6 +127,7 @@ func (c COGS) Lunch() ([]string, error) {
 		return nil, err
 	}
 
+	complete_menu := []string{}
 	for _, v := range respJSON.Data {
 		t, err := time.ParseInLocation("2006-01-02T15:04:05", v.Attributes.Date, location)
 		if err != nil {
@@ -138,9 +142,21 @@ func (c COGS) Lunch() ([]string, error) {
 				menu[k] = strings.Trim(v, " \n")
 			}
 
-			return menu, nil
+			if v.Attributes.LunchType == "R" {
+				menu = append([]string{"*Regular Lunch*"}, menu...)
+			} else if v.Attributes.LunchType == "L" {
+				menu = append([]string{"*Low Calorie Lunch*"}, menu...)
+			} else {
+				menu = append([]string{"*SPECIAL LUNCH*"}, menu...)
+			}
+
+			complete_menu = append(complete_menu, menu...)
 		}
 	}
 
-	return nil, fmt.Errorf("no lunch found for today")
+	if len(complete_menu) == 0 {
+		return nil, fmt.Errorf("no lunch found for today")
+	}
+
+	return complete_menu, nil
 }
