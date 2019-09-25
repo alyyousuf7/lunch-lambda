@@ -5,8 +5,8 @@ Too lazy to open up the portal. :sleeping:
 
 ## How to use?
 So basically it's deployed on AWS Lambda (but can easily be used as CLI, with
-minor changes). You can easily build this for Lamda using the following
-command:
+correct environment variables). You can easily build this for Lamda using the
+following command:
 
 ```bash
 $ GOOS=linux go build .
@@ -30,3 +30,4 @@ PS: I know array starts from zero. :sweat_smile:
 
 ## Why did I make this?
 I was getting bored. :neutral_face:
+

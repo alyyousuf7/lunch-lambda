@@ -1,8 +1,10 @@
 package main
 
 import (
+	"reflect"
 	"strings"
 
+	"github.com/alyyousuf7/lunch-lambda/notification"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/pkg/errors"
@@ -45,6 +47,28 @@ func Handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	}, nil
 }
 
+func onlyConsole() bool {
+	notifiers, err := EnvNotifiers()
+	if err != nil {
+		panic(err)
+	}
+
+	for _, n := range notifiers {
+		if reflect.TypeOf(n) != reflect.TypeOf(&notification.Console{}) {
+			return false
+		}
+	}
+
+	return true
+}
+
 func main() {
-	lambda.Start(Handler)
+	if onlyConsole() {
+		err := Do()
+		if err != nil {
+			panic(err)
+		}
+	} else {
+		lambda.Start(Handler)
+	}
 }
